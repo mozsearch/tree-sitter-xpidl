@@ -116,8 +116,8 @@ static const char * const ts_symbol_names[] = {
   [sym_identifier] = "identifier",
   [anon_sym_POUNDinclude] = "#include",
   [sym_string_literal] = "string_literal",
-  [aux_sym_code_block_token1] = "code_block_token1",
-  [aux_sym_code_block_token2] = "code_block_token2",
+  [aux_sym_code_block_token1] = "%{",
+  [aux_sym_code_block_token2] = "%}",
   [sym_code_text] = "code_text",
   [anon_sym_typedef] = "typedef",
   [anon_sym_SEMI] = ";",
@@ -299,11 +299,11 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = true,
   },
   [aux_sym_code_block_token1] = {
-    .visible = false,
+    .visible = true,
     .named = false,
   },
   [aux_sym_code_block_token2] = {
-    .visible = false,
+    .visible = true,
     .named = false,
   },
   [sym_code_text] = {

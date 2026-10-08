@@ -41,11 +41,12 @@ module.exports = grammar({
     string_literal: _ => /"[^"\n]*"/,
 
     // `t_LCDATA`: C++ passed through to the generated header.
-    // (Historically, the `C++` was optional.)
+    // (Historically, the `C++` was optional.  The delimiters are aliased, so
+    // that they're in trees: unnamed `token(...)`s aren't.)
     code_block: $ => seq(
-      token(seq('%{', optional(seq(/[ \t]*/, 'C++')))),
+      alias(token(seq('%{', optional(seq(/[ \t]*/, 'C++')))), '%{'),
       optional($.code_text),
-      token(seq('%}', optional(seq(/[ \t]*/, 'C++')))),
+      alias(token(seq('%}', optional(seq(/[ \t]*/, 'C++')))), '%}'),
     ),
     // (Everything up to the `%}`.)
     code_text: _ => token(prec(-1, /([^%]|%[^}])+/)),
