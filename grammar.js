@@ -2,7 +2,8 @@
  * XPIDL, Mozilla's XPCOM interface definition language, after the
  * authoritative parser, xpcom/idl-parser/xpidl/xpidl.py in mozilla-central
  * (its `IDLParser`'s lexer and productions, whose names are noted below), and
- * xpcom/docs/xpidl.md.  See the README.
+ * xpcom/docs/xpidl.md, plus syntax which older versions of XPIDL had (noted as
+ * historical), for parsing files' histories.  See the README.
  */
 
 const PREC = {
@@ -16,7 +17,7 @@ const PREC = {
 module.exports = grammar({
   name: 'xpidl',
 
-  extras: $ => [/\s/, $.comment],
+  extras: $ => [/\s/, $.comment, $.preprocessor_line],
 
   word: $ => $.identifier,
 
@@ -31,6 +32,7 @@ module.exports = grammar({
       $.typedef,
       $.native,
       $.webidl,
+      $.dictionary,
     ),
 
     // `t_INCLUDE`: `#include "nsISupports.idl"`.  (xpidl.py rejects other
@@ -39,8 +41,9 @@ module.exports = grammar({
     string_literal: _ => /"[^"\n]*"/,
 
     // `t_LCDATA`: C++ passed through to the generated header.
+    // (Historically, the `C++` was optional.)
     code_block: $ => seq(
-      token(seq('%{', /[ \t]*/, 'C++')),
+      token(seq('%{', optional(seq(/[ \t]*/, 'C++')))),
       optional($.code_text),
       token(seq('%}', optional(seq(/[ \t]*/, 'C++')))),
     ),
@@ -90,8 +93,8 @@ module.exports = grammar({
       'interface',
       field('name', $.identifier),
       optional(seq(':', field('base', $.identifier))),
-      optional(field('body', $.interface_body)),
-      ';',
+      // (Historically, a body didn't need a semicolon after it.)
+      choice(seq(field('body', $.interface_body), optional(';')), ';'),
     ),
     interface_body: $ => seq('{', repeat($._member), '}'),
 
@@ -200,6 +203,40 @@ module.exports = grammar({
         field('right', $._number),
       ))),
     ),
+
+    // Historical: XPIDL dictionaries (ex: `dictionary FooInit : EventInit {
+    // DOMString name; };`, ~2011-2013), for generated C++ dictionary helpers.
+    dictionary: $ => seq(
+      optional($.attribute_list),
+      'dictionary',
+      field('name', $.identifier),
+      optional(seq(':', field('base', $.identifier))),
+      '{',
+      repeat($.dictionary_member),
+      '}',
+      optional(';'),
+    ),
+    dictionary_member: $ => seq(
+      optional($.attribute_list),
+      field('type', $._type),
+      field('name', $.identifier),
+      optional(seq('=', field('default', choice($._number, $.string_literal)))),
+      ';',
+    ),
+
+    // Historical: C preprocessor lines, which the libIDL-based xpidl (before
+    // xpidl.py) passed through cpp (ex: `#ifndef nsIFoo_h__`), and lines left
+    // by the build's preprocessor (ex: `# ***** BEGIN LICENSE BLOCK`), but not
+    // `#include "..."`, an `include`.
+    preprocessor_line: _ => token(seq('#', choice(
+      seq(/[ \t]+/, /[^\n]*/),
+      seq(
+        choice('if', 'ifdef', 'ifndef', 'else', 'elif', 'endif', 'define', 'undef',
+          'pragma', 'error', 'filter', 'unfilter', 'expand', 'literal'),
+        optional(seq(/[ \t]/, /[^\n]*/)),
+      ),
+      seq('include', /[ \t]*/, '<', /[^\n]*/),
+    ))),
 
     // `t_IDENTIFIER`
     identifier: _ => /_?[A-Za-z][A-Za-z_0-9]*/,

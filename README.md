@@ -38,6 +38,23 @@ with [xpcom/docs/xpidl.md](https://searchfox.org/mozilla-central/source/xpcom/do
   long`), `type_identifier`, and `generic_type` (`Array<nsIFoo>`).
 - `comment`: `//` and `/* */` (`/** */` ones are documentation).
 
+## Historical syntax
+
+For parsing files' histories (searchfox's history goes back to 1998), the
+grammar also has syntax that older versions of XPIDL had, which xpidl.py
+doesn't:
+- `dictionary`: `dictionary FooInit : EventInit { DOMString name = "foo"; };`
+  (`dictionary_member`s; ~2011-2013, for generated C++ dictionary helpers).
+- `preprocessor_line`: C preprocessor lines, which the libIDL-based xpidl
+  passed through cpp (ex: `#ifndef nsIFoo_h__`, `#include <olectl.h>`), and
+  lines left by the build's preprocessor (ex: `# ***** BEGIN LICENSE BLOCK`),
+  as extras.
+- `%{` without `C++`, and interface bodies without semicolons after them.
+
+Of the 3648 .idl files ever added to mozilla-central (as first added), those
+that are XPIDL parse, except for some of the earliest (ex: the pre-2001 DOM IDL
+in dom/public/idl, and parameters without directions).
+
 ## Checking it against xpidl.py
 
 `script/compare-with-xpidl-py.sh MOZILLA_CENTRAL` parses a mozilla-central

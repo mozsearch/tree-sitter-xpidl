@@ -156,3 +156,58 @@ interface nsIFoo : nsISupports {
         type: (type_identifier)
         name: (identifier)
         parameters: (parameter_list)))))
+
+================================================================================
+Historical syntax: dictionaries, preprocessor lines, and lenient punctuation
+================================================================================
+
+# ***** BEGIN LICENSE BLOCK *****
+#ifndef nsIFoo_h__
+#define nsIFoo_h__
+#include <olectl.h>
+#include "nsISupports.idl"
+
+dictionary FooInit : EventInit {
+  unsigned long count;
+  DOMString name = "foo";
+};
+
+%{
+class nsFoo;
+%}
+
+interface nsIFoo : nsISupports {
+  void go();
+}
+#endif // nsIFoo_h__
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (preprocessor_line)
+  (preprocessor_line)
+  (preprocessor_line)
+  (preprocessor_line)
+  (include
+    path: (string_literal))
+  (dictionary
+    name: (identifier)
+    base: (identifier)
+    (dictionary_member
+      type: (primitive_type)
+      name: (identifier))
+    (dictionary_member
+      type: (type_identifier)
+      name: (identifier)
+      default: (string_literal)))
+  (code_block
+    (code_text))
+  (interface_definition
+    name: (identifier)
+    base: (identifier)
+    body: (interface_body
+      (method
+        type: (type_identifier)
+        name: (identifier)
+        parameters: (parameter_list))))
+  (preprocessor_line))

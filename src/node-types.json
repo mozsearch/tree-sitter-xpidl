@@ -330,6 +330,120 @@
     }
   },
   {
+    "type": "dictionary",
+    "named": true,
+    "fields": {
+      "base": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_list",
+          "named": true
+        },
+        {
+          "type": "dictionary_member",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dictionary_member",
+    "named": true,
+    "fields": {
+      "default": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "parenthesized_number",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "generic_type",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "generic_type",
     "named": true,
     "fields": {
@@ -687,6 +801,10 @@
           "named": true
         },
         {
+          "type": "dictionary",
+          "named": true
+        },
+        {
           "type": "include",
           "named": true
         },
@@ -886,6 +1004,10 @@
     "named": false
   },
   {
+    "type": "dictionary",
+    "named": false
+  },
+  {
     "type": "identifier",
     "named": true
   },
@@ -916,6 +1038,11 @@
   {
     "type": "out",
     "named": false
+  },
+  {
+    "type": "preprocessor_line",
+    "named": true,
+    "extra": true
   },
   {
     "type": "primitive_type",
