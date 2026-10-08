@@ -1,0 +1,158 @@
+================================================================================
+Includes, code blocks, typedefs, natives, and webidl
+================================================================================
+
+#include "nsISupports.idl"
+
+%{C++
+#include "nsString.h"  // for nsString
+class nsFoo;
+%}
+
+/** The documentation. */
+typedef unsigned long long PRUint64;
+[ptr] native nsFooPtr(nsFoo);
+[ref] native FooCallback(std::function<void(int)>);
+webidl Document;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (include
+    path: (string_literal))
+  (code_block
+    (code_text))
+  (comment)
+  (typedef
+    type: (primitive_type)
+    name: (identifier))
+  (native
+    (attribute_list
+      (attribute
+        name: (identifier)))
+    name: (identifier)
+    type: (native_type))
+  (native
+    (attribute_list
+      (attribute
+        name: (identifier)))
+    name: (identifier)
+    type: (native_type))
+  (webidl
+    name: (identifier)))
+
+================================================================================
+Interfaces and forward declarations
+================================================================================
+
+interface nsIBar;
+
+[scriptable, builtinclass, uuid(a88e5a60-205a-4bb1-94e1-2628daf51eae)]
+interface nsIFoo : nsISupports {
+  const unsigned long FLAG_A = 1 << 2;
+  const long MASK = (FLAG_A | 0x10) - -1;
+
+  cenum Mode : 8 {
+    MODE_A,
+    MODE_B = 4,
+  };
+
+  readonly attribute AString name;
+  [infallible] attribute boolean enabled;
+
+  %{C++
+  inline bool IsEnabled() { return GetEnabled(); }
+  %}
+
+  [implicit_jscontext]
+  Array<nsIBar> go(in unsigned long aCount,
+                   [optional] inout nsIBar aBar,
+                   [array, size_is(aCount)] out octet aBytes) raises (NS_ERROR_FAILURE);
+  void nothing();
+};
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (interface_definition
+    name: (identifier))
+  (interface_definition
+    (attribute_list
+      (attribute
+        name: (identifier))
+      (attribute
+        name: (identifier))
+      (attribute
+        name: (identifier)
+        value: (uuid)))
+    name: (identifier)
+    base: (identifier)
+    body: (interface_body
+      (constant
+        type: (primitive_type)
+        name: (identifier)
+        value: (binary_expression
+          left: (number)
+          right: (number)))
+      (constant
+        type: (type_identifier)
+        name: (identifier)
+        value: (binary_expression
+          left: (parenthesized_number
+            (binary_expression
+              left: (identifier)
+              right: (number)))
+          right: (unary_expression
+            (number))))
+      (cenum
+        name: (identifier)
+        size: (number)
+        (cenum_variant
+          name: (identifier))
+        (cenum_variant
+          name: (identifier)
+          value: (number)))
+      (attribute_declaration
+        type: (type_identifier)
+        name: (identifier))
+      (attribute_declaration
+        (attribute_list
+          (attribute
+            name: (identifier)))
+        type: (type_identifier)
+        name: (identifier))
+      (code_block
+        (code_text))
+      (method
+        (attribute_list
+          (attribute
+            name: (identifier)))
+        type: (generic_type
+          name: (type_identifier)
+          (type_identifier))
+        name: (identifier)
+        parameters: (parameter_list
+          (parameter
+            type: (primitive_type)
+            name: (identifier))
+          (parameter
+            (attribute_list
+              (attribute
+                name: (identifier)))
+            type: (type_identifier)
+            name: (identifier))
+          (parameter
+            (attribute_list
+              (attribute
+                name: (identifier))
+              (attribute
+                name: (identifier)
+                value: (identifier)))
+            type: (type_identifier)
+            name: (identifier)))
+        (raises
+          (identifier)))
+      (method
+        type: (type_identifier)
+        name: (identifier)
+        parameters: (parameter_list)))))

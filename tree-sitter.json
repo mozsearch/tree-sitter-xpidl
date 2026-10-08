@@ -1,0 +1,35 @@
+{
+  "grammars": [
+    {
+      "name": "xpidl",
+      "camelcase": "XPIDL",
+      "scope": "source.xpidl",
+      "path": ".",
+      "file-types": [
+        "idl"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MPL-2.0",
+    "description": "XPIDL (Mozilla's XPCOM interface definition language) grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Andrew Sutherland",
+        "email": "asutherland@asutherland.org"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/mozsearch/tree-sitter-xpidl"
+    }
+  },
+  "bindings": {
+    "c": false,
+    "go": false,
+    "node": false,
+    "python": false,
+    "rust": true,
+    "swift": false
+  }
+}

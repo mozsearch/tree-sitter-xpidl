@@ -1,0 +1,25 @@
+{
+  "name": "tree-sitter-xpidl",
+  "version": "0.1.0",
+  "description": "XPIDL (Mozilla's XPCOM interface definition language) grammar for tree-sitter",
+  "keywords": [
+    "parser",
+    "lexer",
+    "xpidl",
+    "mozilla"
+  ],
+  "author": "Andrew Sutherland",
+  "license": "MPL-2.0",
+  "private": true,
+  "devDependencies": {
+    "tree-sitter-cli": "0.26.9"
+  },
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "test": "tree-sitter test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mozsearch/tree-sitter-xpidl.git"
+  }
+}

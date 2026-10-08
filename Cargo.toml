@@ -1,0 +1,32 @@
+[package]
+name = "tree-sitter-xpidl"
+description = "XPIDL (Mozilla's XPCOM interface definition language) grammar for tree-sitter"
+version = "0.1.0"
+authors = ["Andrew Sutherland <asutherland@asutherland.org>"]
+license = "MPL-2.0"
+readme = "README.md"
+keywords = ["incremental", "parsing", "tree-sitter", "xpidl", "mozilla"]
+categories = ["parsing"]
+repository = "https://github.com/mozsearch/tree-sitter-xpidl"
+edition = "2021"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "src/*",
+  "src/tree_sitter/*",
+  "tree-sitter.json",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter-language = "0.1"
+
+[build-dependencies]
+cc = "1.2"
+
+[dev-dependencies]
+tree-sitter = "0.26"
